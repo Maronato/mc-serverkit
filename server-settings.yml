@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  minecraft:
+    environment:
+      MEMORY: 1G
+      SERVER_NAME: ${SERVER_NAME}
+      MAX_PLAYERS: 20
+      MOTD: 'My minecraft server'

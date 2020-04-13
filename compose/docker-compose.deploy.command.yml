@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  traefik:
+    command: >
+      --providers.docker.endpoint=unix:///var/run/docker.sock
+      --providers.docker.swarmMode=true
+      --providers.docker.exposedByDefault=false
+      --providers.docker.network=proxy
+      --accesslog=true
+      --metrics.prometheus=true
+      --api.dashboard=true
+      --entrypoints.web.address=:80
+      --entrypoints.websecure.address=:443
+      --entryPoints.mc.address=:25565
+      --entryPoints.rcon-ws.address=:4327
+      --certificatesResolvers.le.acme.email=${EMAIL}
+      --certificatesResolvers.le.acme.storage=acme.json
+      --certificatesResolvers.le.acme.httpChallenge=true
+      --certificatesResolvers.le.acme.httpChallenge.entryPoint=web

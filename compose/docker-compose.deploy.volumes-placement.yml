@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  traefik:
+    volumes:
+      - ../acme.json:/acme.json
+      - ../.htpasswd:/.htpasswd
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager

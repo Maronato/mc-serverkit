@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  traefik:
+    command: >
+      --providers.docker
+      --api.dashboard=true
+      --api.insecure=true
+      --accesslog=true
+      --metrics.prometheus=true
+      --entryPoints.web.address=:80
+      --entryPoints.mc.address=:25565
+      --entryPoints.rcon-ws.address=:4327

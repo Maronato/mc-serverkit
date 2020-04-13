@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  rcon:
+    depends_on:
+      - minecraft
+  backup:
+    depends_on:
+      - minecraft
+  exporter:
+    depends_on:
+      - prometheus
+  grafana:
+    depends_on:
+      - prometheus

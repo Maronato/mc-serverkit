@@ -1,0 +1,36 @@
+version: "3.7"
+services:
+  traefik:
+    networks:
+      - default
+      - proxy
+  minecraft:
+    networks:
+      - default
+      - proxy
+  rcon:
+    networks:
+      - default
+      - proxy
+  grafana:
+    networks:
+      - default
+      - proxy
+  portainer:
+    networks:
+      - default
+      - proxy
+  exporter:
+    networks:
+      - default
+  prometheus:
+    networks:
+      - default
+  backup:
+    networks:
+      - default
+
+networks:
+  default:
+  proxy:
+    external: true

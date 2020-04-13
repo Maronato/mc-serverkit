@@ -1,0 +1,65 @@
+version: "3.7"
+services:
+  traefik:
+    labels:
+      # Traefik should live under traefik.DOMAIN
+      - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN-localhost}`)
+      # Make sure the loadbalancer uses the correct port
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
+      # Register the Dashboard service
+      - traefik.http.routers.traefik.service=api@internal
+      # Development env only uses http
+      - traefik.http.routers.traefik.entrypoints=web
+  minecraft:
+    labels:
+      # Minecraft should live under DOMAIN
+      - traefik.tcp.routers.minecraft.rule=HostSNI(`*`)
+      # Make sure the loadbalancer uses the correct TCP port
+      - traefik.tcp.services.minecraft.loadbalancer.server.port=25565
+      # Minecraft port is the entrypoint
+      - traefik.tcp.routers.minecraft.entrypoints=mc
+      # Dynmap service
+      - traefik.http.routers.dynmap.rule=Host(`map.${DOMAIN-localhost}`)
+      - traefik.http.services.dynmap.loadbalancer.server.port=8123
+      - traefik.http.routers.dynmap.entrypoints=web
+      - traefik.http.routers.dynmap.service=dynmap
+  rcon:
+    labels: 
+      # Need to manually define the service since this container creates a service
+      # for itself and another one for the ws port
+      - traefik.http.routers.rcon.service=rcon
+      # rcon should live under rcon.DOMAIN
+      - traefik.http.routers.rcon.rule=Host(`rcon.${DOMAIN-localhost}`)
+      # Make sure the loadbalancer uses the correct port
+      - traefik.http.services.rcon.loadbalancer.server.port=4326
+      # Development env only uses http
+      - traefik.http.routers.rcon.entrypoints=web
+      # Enable debugging through the load balancer
+      - traefik.http.routers.rcon-ws.rule=Host(`rcon.${DOMAIN-localhost}`)
+      - traefik.http.services.rcon-ws.loadbalancer.server.port=4327
+      - traefik.http.routers.rcon-ws.entrypoints=rcon-ws
+      - traefik.http.routers.rcon-ws.service=rcon-ws
+  grafana:
+    labels:
+      # Grafana should live under grafana.DOMAIN
+      - traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN-localhost}`)
+      # Make sure the loadbalancer uses the correct port
+      - traefik.http.services.grafana.loadbalancer.server.port=3000
+      # Development env only uses http
+      - traefik.http.routers.grafana.entrypoints=web
+  prometheus:
+    labels:
+      # Prometheus should live under prometheus.DOMAIN
+      - traefik.http.routers.prometheus.rule=Host(`prometheus.${DOMAIN-localhost}`)
+      # Make sure the loadbalancer uses the correct port
+      - traefik.http.services.prometheus.loadbalancer.server.port=9090
+      # Development env only uses http
+      - traefik.http.routers.prometheus.entrypoints=web
+  portainer:
+    labels:
+      # Portainer should live under portainer.DOMAIN
+      - traefik.http.routers.portainer.rule=Host(`portainer.${DOMAIN-localhost}`)
+      # Make sure the loadbalancer uses the correct port
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
+      # Development env only uses http
+      - traefik.http.routers.portainer.entrypoints=web

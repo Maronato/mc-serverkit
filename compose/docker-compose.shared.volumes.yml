@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  minecraft:
+    volumes: 
+      - ../server:/data
+  backup:
+    volumes:
+      - ../server:/data:ro
+      - ../backups:/backups
+  traefik:
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  rcon:
+    volumes:
+      - rcon_db:/opt/rcon-web-admin/db
+  prometheus:
+    volumes:
+      - prometheus_data:/prometheus
+  grafana:
+    volumes:
+      - grafana_data:/data
+  portainer:
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+volumes:
+  rcon_db:
+  prometheus_data:
+  grafana_data:
+  portainer_data:

@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  minecraft:
+    image: itzg/minecraft-server@sha256:4332a774d77aaf0d2c56f6d2ee384b9476f68907699bdd98feb133fdf15b5c8d
+  rcon:
+    image: itzg/rcon@sha256:672d0dc417d1b250c642f09e90b4b65817a303716a9ae50d5443b43d3b231742
+  backup:
+    image: itzg/mc-backup@sha256:7ee096393393d98d667d7b58523ba541f4f7f8b13ad9ff31d5c79b1794568cf1
+  traefik:
+    image: traefik:v2.2
+  exporter:
+    image: prom/node-exporter:v0.18.1
+  prometheus:
+    image: localhost/prometheus:latest
+  grafana:
+    image: localhost/grafana:latest
+  portainer:
+    image: portainer/portainer:1.23.0
